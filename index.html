@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterpiece WebGL Experience</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Assistant:wght@200;500;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #020205;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Assistant', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* נבנה סמן עכבר מותאם אישית */
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* סמן עכבר מותאם */
+        #custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* שכבת צבעים משתנה ברקע (Gradient Blobs) */
+        .blobs {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            opacity: 0.4;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+        .blob-1 { background: #00ffaa; top: -10%; left: -10%; }
+        .blob-2 { background: #8800ff; bottom: -10%; right: -10%; animation-delay: -5s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(20%, 20%) scale(1.2); }
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(3rem, 15vw, 12rem);
+            margin: 0;
+            line-height: 0.8;
+            letter-spacing: -5px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .highlight-text {
+            background: linear-gradient(90deg, #00ffaa, #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem;
+            border-radius: 60px;
+            max-width: 800px;
+            transform: perspective(1000px) rotateX(10deg);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .feature-item {
+            padding: 20px;
+            border-right: 1px solid rgba(0, 255, 170, 0.3);
+            text-align: right;
+        }
+
+        .scroll-line {
+            position: absolute;
+            bottom: 50px;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, white, transparent);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="custom-cursor"></div>
+    <div id="canvas-container"></div>
+    
+    <div class="blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1 id="title-1">מעבר</h1>
+                <h1 id="title-2" class="highlight-text">לדמיון</h1>
+            </div>
+            <div class="scroll-line"></div>
+        </section>
+
+        <section id="info">
+            <div class="glass-card">
+                <h2 style="font-family: 'Secular One'; font-size: 3rem; margin-bottom: 20px;">טכנולוגיית זרימה</h2>
+                <p style="font-size: 1.3rem; line-height: 1.6; opacity: 0.8;">
+                    האלמנטים שאתה רואה מגיבים לכל גלילה. השתמשנו במנוע הפיזיקלי כדי ליצור מערכת שבה האור נשבר דרך שכבות של חלקיקים תלת-מימדיים.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4 style="color: #00ffaa; margin: 0;">01</h4>
+                        <p>סימולציה בזמן אמת</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4 style="color: #00ffaa; margin: 0;">02</h4>
+                        <p>שבירת אור פיזיקלית</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4 style="color: #00ffaa; margin: 0;">03</h4>
+                        <p>תגובתיות מלאה</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="outro">
+            <h1 style="opacity: 1; transform: none; font-size: 8vw;">תחוו את <span class="highlight-text">העתיד</span></h1>
+        </section>
+    </main>
+
+    <script>
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX - 10, y: e.clientY - 10, duration: 0.1 });
+        });
+
+        // --- Three.js Setup ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        camera.position.z = 8;
+
+        // --- מערכת חלקיקים ראשית (גלים) ---
+        const count = 60000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for(let i=0; i<count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 20;
+            colors[i] = Math.random();
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.05,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        // --- הוספת "צורות מרחפות" (Floating Solids) ---
+        const torusGeo = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+        const torusMat = new THREE.MeshNormalMaterial({ wireframe: true, transparent: true, opacity: 0.2 });
+        const floatingObject = new THREE.Mesh(torusGeo, torusMat);
+        scene.add(floatingObject);
+
+        // --- אנימציה ---
+        const clock = new THREE.Clock();
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5);
+            mouseY = (e.clientY / window.innerHeight - 0.5);
+        });
+
+        function animate() {
+            const time = clock.getElapsedTime();
+            const pos = geometry.attributes.position.array;
+            
+            for(let i=0; i<count; i++) {
+                const i3 = i * 3;
+                const x = pos[i3];
+                const z = pos[i3+2];
+
+                // נוסחת תנועה מורכבת יותר (FBM - Fractional Brownian Motion)
+                pos[i3+1] = Math.sin(x * 0.5 + time) * 0.5 + Math.cos(z * 0.3 + time * 0.5) * 0.5;
+                
+                // אינטראקציית עכבר מקומית
+                const dx = x - (mouseX * 10);
+                const dz = z - (mouseY * 10);
+                const dist = Math.sqrt(dx*dx + dz*dz);
+                if(dist < 2) {
+                    pos[i3+1] += (2 - dist) * 0.5;
+                }
+            }
+            geometry.attributes.position.needsUpdate = true;
+
+            floatingObject.rotation.x = time * 0.2;
+            floatingObject.rotation.y = time * 0.3;
+            floatingObject.position.y = Math.sin(time) * 0.5;
+
+            points.rotation.y = time * 0.05;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- GSAP Scroll Effects ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // כניסה של כותרות
+        gsap.to("#title-1", { opacity: 1, y: 0, duration: 1.5, delay: 0.5, ease: "power4.out" });
+        gsap.to("#title-2", { opacity: 1, y: 0, duration: 1.5, delay: 0.7, ease: "power4.out" });
+
+        // אנימציית גלילה למצלמה ולחלקיקים
+        gsap.to(camera.position, {
+            z: 4,
+            scrollTrigger: {
+                trigger: "#info",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+
+        // שינוי צבע החלקיקים
+        const particleProxy = { hue: 0.5 };
+        gsap.to(particleProxy, {
+            hue: 0.1,
+            scrollTrigger: {
+                trigger: "#info",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+                onUpdate: () => {
+                    const colors = geometry.attributes.color.array;
+                    for(let i=0; i<count; i++) {
+                        const color = new THREE.Color().setHSL(particleProxy.hue + (Math.random()*0.1), 0.8, 0.5);
+                        colors[i*3] = color.r;
+                        colors[i*3+1] = color.g;
+                        colors[i*3+2] = color.b;
+                    }
+                    geometry.attributes.color.needsUpdate = true;
+                }
+            }
+        });
+
+        // אפקט Parallax לכרטיס
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            gsap.to(".glass-card", { rotationY: -x, rotationX: y, duration: 0.5 });
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+
