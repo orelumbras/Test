@@ -1,0 +1,288 @@
+import React, { useState, useEffect } from 'react';
+import { Wine, Map, Music, PartyPopper, Users, Star, ArrowDown, Heart, Sparkles, MapPin, GraduationCap } from 'lucide-react';
+
+const App = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-purple-500 selection:text-white overflow-hidden" dir="rtl">
+      <style>{`
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); }
+          50% { filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.8)); }
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 1s ease-out forwards;
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+          animation: pulse-glow 3s infinite;
+        }
+        .animate-marquee {
+          display: inline-block;
+          white-space: nowrap;
+          animation: marquee 15s linear infinite;
+        }
+        .glass-card {
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+          background: linear-gradient(135deg, #c084fc, #f472b6, #fbbf24);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      `}</style>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 glass-card px-6 py-4 flex justify-between items-center transition-all duration-300" style={{ background: scrollY > 50 ? 'rgba(10, 10, 10, 0.9)' : 'transparent' }}>
+        <div className="text-2xl font-black tracking-widest text-white">TUTI.<span className="text-purple-500"></span></div>
+        <div className="flex gap-4">
+          <PartyPopper className="text-purple-400 w-6 h-6 animate-pulse" />
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="z-10 text-center px-4 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          
+          {/* SVG Portrait (Based on Photo) */}
+          <div className="relative w-64 h-64 md:w-96 md:h-96 shrink-0 animate-float opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="absolute inset-0 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-full blur-2xl opacity-40 animate-pulse-glow"></div>
+            <svg viewBox="0 0 200 200" className="relative w-full h-full z-10 drop-shadow-2xl bg-neutral-900 rounded-full border-4 border-neutral-800 object-cover overflow-hidden">
+              <defs>
+                <clipPath id="circle-clip">
+                  <circle cx="100" cy="100" r="100" />
+                </clipPath>
+              </defs>
+              <g clipPath="url(#circle-clip)">
+                {/* Background */}
+                <rect width="200" height="200" fill="#f3f4f6" />
+                {/* Military Fleece */}
+                <path d="M 20 200 C 40 140, 160 140, 180 200 Z" fill="#6b705c" />
+                <path d="M 95 145 L 95 200 M 105 145 L 105 200" stroke="#3f4236" strokeWidth="2" />
+                {/* Purple Tag */}
+                <path d="M 40 160 C 50 150, 60 160, 50 180 Z" fill="#6b21a8" />
+                {/* Neck */}
+                <path d="M 85 120 L 85 150 L 115 150 L 115 120 Z" fill="#fcd5ce" />
+                {/* Hair Back */}
+                <path d="M 50 100 C 40 150, 60 200, 70 200 L 130 200 C 140 200, 170 150, 150 90 Z" fill="#3e2723" />
+                {/* Face */}
+                <ellipse cx="100" cy="100" rx="35" ry="45" fill="#fcd5ce" />
+                {/* Eyes */}
+                <path d="M 85 95 C 90 92, 95 95, 95 95" stroke="#3e2723" strokeWidth="2" fill="none" />
+                <path d="M 105 95 C 110 92, 115 95, 115 95" stroke="#3e2723" strokeWidth="2" fill="none" />
+                <circle cx="90" cy="95" r="2" fill="#3e2723" />
+                <circle cx="110" cy="95" r="2" fill="#3e2723" />
+                {/* Big Smile */}
+                <path d="M 85 115 C 100 130, 115 115, 115 115 C 110 125, 90 125, 85 115 Z" fill="#fff" stroke="#d81b60" strokeWidth="1" />
+                <path d="M 85 115 C 100 120, 115 115, 115 115" stroke="#d81b60" strokeWidth="2" fill="none" />
+                {/* Hair Front */}
+                <path d="M 100 50 C 70 50, 60 80, 60 110 C 60 100, 75 60, 100 60 C 125 60, 140 100, 140 110 C 140 80, 130 50, 100 50 Z" fill="#3e2723" />
+                <path d="M 100 60 C 110 60, 130 90, 145 150 C 150 170, 160 190, 160 200" stroke="#3e2723" strokeWidth="15" fill="none" strokeLinecap="round" />
+              </g>
+            </svg>
+          </div>
+
+          {/* Typography */}
+          <div className="text-right opacity-0 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            <h2 className="text-purple-500 font-bold tracking-widest text-sm uppercase mb-2">המותג. האגדה.</h2>
+            <h1 className="text-6xl md:text-8xl font-black mb-4 text-gradient leading-tight">אבישג <br/> יוניש</h1>
+            <p className="text-xl md:text-2xl text-neutral-400 font-light mb-8">
+              "החברים קוראים לי <span className="text-white font-bold">תותי</span>."
+            </p>
+            
+            <div className="flex flex-wrap gap-4 justify-end">
+              <span className="glass-card px-4 py-2 rounded-full flex items-center gap-2 text-sm">
+                <Star className="w-4 h-4 text-yellow-400" /> בת 20 (במאי 21!)
+              </span>
+              <span className="glass-card px-4 py-2 rounded-full flex items-center gap-2 text-sm">
+                <Heart className="w-4 h-4 text-pink-500" /> מכ״צית בצה״ל
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ArrowDown className="text-neutral-500 w-8 h-8" />
+        </div>
+      </section>
+
+      {/* The "BENI" Marquee */}
+      <div className="w-full bg-purple-600 py-4 overflow-hidden flex items-center relative -rotate-2 scale-105 z-20 shadow-2xl">
+        <div className="animate-marquee whitespace-nowrap text-4xl md:text-6xl font-black text-white uppercase tracking-widest opacity-90">
+          בני!!! • בני!!! • בני!!! • בני!!! • בני!!! • בני!!! • בני!!! • בני!!! • בני!!! • 
+        </div>
+      </div>
+
+      {/* Fast Facts Grid */}
+      <section className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+        <h2 className="text-4xl font-bold mb-16 text-center">החיים של תותי <span className="text-purple-500">_</span></h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <div className="glass-card p-8 rounded-3xl hover:bg-white/5 transition duration-300 group">
+            <div className="bg-purple-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+              <MapPin className="text-purple-400 w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">מושבניקית</h3>
+            <p className="text-neutral-400 leading-relaxed">גרה במושב היפהפה "כפר יחזקאל". כרגע נהנית מהחיים בבית עם ההורים (לבד, כי האחים כבר גדולים).</p>
+          </div>
+
+          <div className="glass-card p-8 rounded-3xl hover:bg-white/5 transition duration-300 group">
+            <div className="bg-pink-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+              <Users className="text-pink-400 w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">משפחה וחברים</h3>
+            <p className="text-neutral-400 leading-relaxed">אחות קטנה לשני אחים גדולים. אוהבת לטייל בארץ ובעולם ולהיפגש עם חברים בכל הזדמנות שיש.</p>
+          </div>
+
+          <div className="glass-card p-8 rounded-3xl hover:bg-white/5 transition duration-300 group">
+            <div className="bg-yellow-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+              <GraduationCap className="text-yellow-400 w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">היסטוריה</h3>
+            <p className="text-neutral-400 leading-relaxed">למדה ב"עין חרוב". מאז ומתמיד הייתה מלאה באנרגיות שקשה לפספס.</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Passions Section */}
+      <section className="py-24 px-6 bg-neutral-900/50 relative">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          
+          <div className="order-2 md:order-1 relative">
+            {/* Dancer Sketch SVG */}
+            <div className="w-full max-w-md mx-auto aspect-square glass-card rounded-full flex items-center justify-center relative overflow-hidden group">
+               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10 group-hover:scale-110 transition duration-500"></div>
+               <svg viewBox="0 0 200 200" className="w-64 h-64 text-neutral-300 opacity-80">
+                  {/* Abstract Dancer Vector */}
+                  <path d="M100 30 C 105 30, 110 35, 110 40 C 110 45, 105 50, 100 50 C 95 50, 90 45, 90 40 C 90 35, 95 30, 100 30 Z" fill="currentColor" />
+                  <path d="M100 50 C 110 70, 120 80, 130 70 C 140 60, 150 70, 140 90 C 130 110, 110 100, 100 120 C 90 140, 110 170, 105 180 C 100 190, 80 180, 90 150 C 100 120, 80 110, 70 120 C 60 130, 50 120, 60 100 C 70 80, 90 70, 100 50 Z" fill="currentColor" />
+               </svg>
+            </div>
+          </div>
+
+          <div className="order-1 md:order-2 space-y-8">
+            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+              נולדה לזוז. <br/>
+              <span className="text-pink-500">חיה בשביל המסיבה.</span>
+            </h2>
+            
+            <div className="space-y-6">
+              <div className="flex gap-4">
+                <div className="mt-1 bg-pink-500/20 p-3 rounded-full h-fit">
+                  <Music className="w-6 h-6 text-pink-400" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-1">ריקוד זה בדם</h4>
+                  <p className="text-neutral-400">רקדה כל חייה ועסקה בריקוד. הקצב תמיד זורם לה בוורידים, בין אם זה בסטודיו או ברחבה במועדון.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="mt-1 bg-yellow-500/20 p-3 rounded-full h-fit">
+                  <PartyPopper className="w-6 h-6 text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-1">מתה על מסיבות</h4>
+                  <p className="text-neutral-400">אם יש אירוע, מסיבה או התקהלות שווה - תותי שם. היא המסמר של הערב, מרימה את האווירה לשמיים.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="mt-1 bg-purple-500/20 p-3 rounded-full h-fit">
+                  <Wine className="w-6 h-6 text-purple-400" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-1">מכורה לאלכוהול (בקטע טוב)</h4>
+                  <p className="text-neutral-400">חובבת דרינקים, צ'ייסרים ומה שביניהם. אי אפשר לחגוג באמת בלי איזה קוקטייל טוב ביד.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Art / Gallery Section (Digital Sketches) */}
+      <section className="py-24 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold mb-12 text-center">גלריית האמנות של תותי</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          <div className="glass-card rounded-3xl p-8 flex flex-col items-center text-center">
+            <div className="w-full h-64 bg-neutral-900 rounded-2xl mb-6 flex items-center justify-center relative overflow-hidden">
+               <svg viewBox="0 0 100 100" className="w-32 h-32 text-purple-400 animate-pulse">
+                 {/* Cocktail / Party Sketch */}
+                 <path d="M 20 30 L 80 30 L 55 60 L 55 90 L 70 90 L 70 95 L 30 95 L 30 90 L 45 90 L 45 60 Z" fill="none" stroke="currentColor" strokeWidth="3" />
+                 <circle cx="65" cy="20" r="5" fill="currentColor" />
+                 <path d="M 30 30 L 70 30" stroke="currentColor" strokeWidth="2" />
+               </svg>
+               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <h3 className="text-xl font-bold">הצד של הלילה</h3>
+            <p className="text-neutral-500 text-sm mt-2">סקיצה מינימליסטית המייצגת את האהבה שלה למסיבות ולאלכוהול.</p>
+          </div>
+
+          <div className="glass-card rounded-3xl p-8 flex flex-col items-center text-center">
+            <div className="w-full h-64 bg-neutral-900 rounded-2xl mb-6 flex items-center justify-center relative overflow-hidden">
+               <svg viewBox="0 0 100 100" className="w-32 h-32 text-green-500">
+                 {/* Military/Archery nod Sketch (based on uniform badge) */}
+                 <path d="M 30 20 Q 80 50 30 80 Q 50 50 30 20 Z" fill="none" stroke="currentColor" strokeWidth="3" />
+                 <path d="M 20 50 L 90 50 L 80 45 M 90 50 L 80 55" fill="none" stroke="currentColor" strokeWidth="3" />
+               </svg>
+               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <h3 className="text-xl font-bold">הצד של הצבא</h3>
+            <p className="text-neutral-500 text-sm mt-2">סיכת החץ מהמדים, מייצגת את השירות המשמעותי כמכ״צית.</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-neutral-800 py-12 text-center px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-purple-900/5 pointer-events-none"></div>
+        <Sparkles className="w-8 h-8 text-purple-500 mx-auto mb-6 animate-pulse" />
+        <h2 className="text-3xl font-black text-white mb-2">TUTI.</h2>
+        <p className="text-neutral-500 mb-8">May 2004 • Kfar Yehezkel • Always Partying</p>
+        <p className="text-sm text-neutral-600">
+          עוצב במיוחד עבור אבישג יוניש
+        </p>
+      </footer>
+
+    </div>
+  );
+};
+
+export default App;
+
